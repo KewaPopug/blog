@@ -46,4 +46,18 @@ class CategoryRepository
         unset($category);
         return $categories;
     }
+
+    public function findBySlug(string $slug): ?array
+    {
+        $statement = $this->db->prepare(
+            'SELECT c.*, COUNT(DISTINCT ac.article_id) AS article_count
+             FROM categories c
+             LEFT JOIN article_categories ac ON ac.category_id = c.id
+             WHERE c.slug = ?
+             GROUP BY c.id'
+        );
+        $statement->execute([$slug]);
+
+        return $statement->fetch() ?: null;
+    }
 }

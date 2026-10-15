@@ -1,11 +1,15 @@
 <?php
 declare(strict_types=1);
 
+use App\Controller\ArticleController;
 use App\Controller\CategoryController;
+use App\Controller\HomeController;
 use App\Database\ConnectionFactory;
 use App\Http\Request;
 use App\Http\Router;
+use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
+use App\Service\ArticleService;
 use App\Service\CategoryService;
 use App\View\SmartyView;
 
@@ -24,18 +28,19 @@ $view = new SmartyView(dirname(__DIR__) . '/views', $basePath);
 try {
     $db = ConnectionFactory::createFromEnvironment();
     $categoryRepository = new CategoryRepository($db);
-    $categoryController = new CategoryController(
-        new CategoryService($categoryRepository),
-        $view,
-    );
+    $articleRepository = new ArticleRepository($db);
+    $categoryService = new CategoryService($categoryRepository, $articleRepository);
+    $articleService = new ArticleService($articleRepository);
 
-    $router = new Router();
-    $router->get('#^/$#D', [$categoryController, 'index']);
+    $homeController = new HomeController($categoryService, $view);
+    $categoryController = new CategoryController($categoryService, $view);
+    $articleController = new ArticleController($articleService, $view);
 
-    if (!$router->dispatch(Request::fromGlobals())) {
-        http_response_code(404);
-        $view->render('404.tpl');
-    }
+    $router = new Router($view);
+    $router->get('#^/$#D', [$homeController, 'index']);
+    $router->get('#^/category/(?P<slug>[a-z0-9-]+)/?$#D', [$categoryController, 'index']);
+    $router->get('#^/article/(?P<slug>[a-z0-9-]+)/?$#D', [$articleController, 'index']);
+    $router->dispatch(Request::fromGlobals());
 } catch (Throwable $exception) {
     http_response_code(500);
     error_log((string)$exception);

@@ -3,9 +3,17 @@ declare(strict_types=1);
 
 namespace App\Http;
 
- class Router
+use App\View\SmartyView;
+
+class Router
 {
     private array $routes = [];
+
+    public function __construct(
+        private readonly SmartyView $view
+    )
+    {
+    }
 
     public function get(string $pattern, callable $handler): void
     {
@@ -16,7 +24,7 @@ namespace App\Http;
         ];
     }
 
-    public function dispatch(Request $request): bool
+    public function dispatch(Request $request): void
     {
         foreach ($this->routes as $route) {
             if ($route['method'] !== $request->method || !preg_match($route['pattern'], $request->path, $matches)) {
@@ -25,9 +33,10 @@ namespace App\Http;
 
             $parameters = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
             ($route['handler'])($request, $parameters);
-            return true;
+            return;
         }
 
-        return false;
+        http_response_code(404);
+        $this->view->render('404.tpl');
     }
 }
