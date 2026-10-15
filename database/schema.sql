@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS categories (
   name VARCHAR(120) NOT NULL,
   slug VARCHAR(140) NOT NULL UNIQUE,
   description TEXT NOT NULL
-)
+);
 
 CREATE TABLE IF NOT EXISTS articles (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS articles (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_articles_published (published_at),
   INDEX idx_articles_views (views)
-)
+);
 
 CREATE TABLE IF NOT EXISTS article_categories (
   article_id INT UNSIGNED NOT NULL,
@@ -26,4 +26,4 @@ CREATE TABLE IF NOT EXISTS article_categories (
   CONSTRAINT fk_ac_article FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
   CONSTRAINT fk_ac_category FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE,
   INDEX idx_ac_category (category_id)
-)
+);

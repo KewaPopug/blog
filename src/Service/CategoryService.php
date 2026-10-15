@@ -6,7 +6,7 @@ namespace App\Service;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 
-class CategoryService
+final class CategoryService
 {
     private const PAGE_SIZE = 6;
 

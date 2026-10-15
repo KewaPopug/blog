@@ -5,7 +5,7 @@ namespace App\Service;
 
 use App\Repository\ArticleRepository;
 
-class ArticleService
+final class ArticleService
 {
     public function __construct(
         private readonly ArticleRepository $articleRepository

@@ -7,7 +7,7 @@ use App\Http\Request;
 use App\Service\ArticleService;
 use App\View\SmartyView;
 
-class ArticleController
+final class ArticleController
 {
     public function __construct(
         readonly private ArticleService $articleService,

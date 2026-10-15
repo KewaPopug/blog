@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title">
+  <title id="title">Абстрактная иллюстрация городской архитектуры</title>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#e9b890"/><stop offset="1" stop-color="#f3dfbd"/></linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#sky)"/>
+  <circle cx="920" cy="160" r="92" fill="#fff3d8" opacity=".85"/>
+  <path d="M0 540 180 440l165 85 180-145 210 150 190-120 275 140v150H0Z" fill="#82927a"/>
+  <path d="M90 700V300h250v400M390 700V215h300v485M720 700V355h180v345M940 700V270h190v430" fill="#f5efe2"/>
+  <path d="M90 300h250l-30-85H120ZM390 215h300l-45-95H435ZM720 355h180l-25-70H745ZM940 270h190l-30-75H970Z" fill="#a65343"/>
+  <g fill="#647568"><path d="M130 350h55v85h-55zm95 0h55v85h-55zm-95 130h55v85h-55zm95 0h55v85h-55z"/><path d="M445 275h70v100h-70zm120 0h70v100h-70zm-120 145h70v100h-70zm120 0h70v100h-70z"/><path d="M760 410h42v75h-42zm70 0h42v75h-42zm-70 115h42v75h-42zm70 0h42v75h-42z"/><path d="M975 325h50v90h-50zm85 0h30v90h-30zm-85 130h50v90h-50zm85 0h30v90h-30z"/></g>
+  <path d="M0 680h1200" stroke="#d9c7a8" stroke-width="40"/>
+</svg>

@@ -7,7 +7,7 @@ use App\Http\Request;
 use App\Service\CategoryService;
 use App\View\SmartyView;
 
-class HomeController
+final class HomeController
 {
     public function __construct(
         private readonly CategoryService $categoryService,

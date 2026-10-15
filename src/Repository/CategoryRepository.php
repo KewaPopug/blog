@@ -5,7 +5,7 @@ namespace App\Repository;
 
 use PDO;
 
-class CategoryRepository
+final class CategoryRepository
 {
     public function __construct(
         private readonly PDO $db
@@ -13,24 +13,24 @@ class CategoryRepository
 
     public function findAllWithRecentArticles(): array
     {
-        $categories = $this->db->query(
-            'SELECT c.*, COUNT(DISTINCT ac.article_id) AS article_count
+        $categories = $this->db->query(<<<SQL
+             SELECT c.*, COUNT(DISTINCT ac.article_id) AS article_count
              FROM categories c
              JOIN article_categories ac ON ac.category_id = c.id
              GROUP BY c.id
-             ORDER BY c.name'
-        )->fetchAll();
+             ORDER BY c.name
+        SQL)->fetchAll();
 
-        $recentArticles = $this->db->query(
-            'SELECT ranked.* FROM (
+        $recentArticles = $this->db->query(<<<SQL
+                SELECT ranked.* FROM (
                 SELECT a.*, ac.category_id,
                        ROW_NUMBER() OVER (PARTITION BY ac.category_id ORDER BY a.published_at DESC, a.id DESC) AS row_num
                 FROM articles a
                 JOIN article_categories ac ON ac.article_id = a.id
              ) AS ranked
              WHERE ranked.row_num <= 3
-             ORDER BY ranked.category_id, ranked.row_num'
-        )->fetchAll();
+             ORDER BY ranked.category_id, ranked.row_num
+        SQL)->fetchAll();
 
         $articlesByCategory = [];
         foreach ($recentArticles as $article) {
@@ -49,13 +49,13 @@ class CategoryRepository
 
     public function findBySlug(string $slug): ?array
     {
-        $statement = $this->db->prepare(
-            'SELECT c.*, COUNT(DISTINCT ac.article_id) AS article_count
+        $statement = $this->db->prepare(<<<SQL
+             SELECT c.*, COUNT(DISTINCT ac.article_id) AS article_count
              FROM categories c
              LEFT JOIN article_categories ac ON ac.category_id = c.id
              WHERE c.slug = ?
-             GROUP BY c.id'
-        );
+             GROUP BY c.id
+        SQL);
         $statement->execute([$slug]);
 
         return $statement->fetch() ?: null;

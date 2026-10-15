@@ -5,7 +5,7 @@ namespace App\Http;
 
 use App\View\SmartyView;
 
-class Router
+final class Router
 {
     private array $routes = [];
 

@@ -5,7 +5,7 @@ namespace App\Database;
 
 use PDO;
 
-class ConnectionFactory
+final class ConnectionFactory
 {
     public static function createFromEnvironment(): PDO
     {

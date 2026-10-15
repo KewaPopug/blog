@@ -13,13 +13,6 @@ use App\Service\ArticleService;
 use App\Service\CategoryService;
 use App\View\SmartyView;
 
-if (PHP_SAPI === 'cli-server') {
-    $requestedFile = realpath(__DIR__ . (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/'));
-    if ($requestedFile && str_starts_with($requestedFile, __DIR__ . DIRECTORY_SEPARATOR) && is_file($requestedFile)) {
-        return false;
-    }
-}
-
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 $basePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/')), '/');
